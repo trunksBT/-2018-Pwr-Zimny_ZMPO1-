@@ -11,7 +11,6 @@ CMenuItem::CMenuItem(std::string inMenuName, std::string inCommandName)
 
 CMenuItem::~CMenuItem()
 {
-	parent = NULL;
 	for (const auto& it : children)
 	{
 		delete it;

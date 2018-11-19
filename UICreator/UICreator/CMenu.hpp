@@ -15,4 +15,5 @@ public:
 private:
 	std::vector<std::string> performLexer(std::string inCommand);
 	std::vector<std::string> receiveAndLexCommandFromUser();
+	bool validateInputCommand(std::vector<std::string>& inCommand, int numberOfExpectedArgs);
 };

@@ -151,18 +151,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Abstract.hpp" />
     <ClInclude Include="CMenu.hpp" />
     <ClInclude Include="CMenuItem.hpp" />
-    <ClInclude Include="Concrete.hpp" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Utils.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Abstract.cpp" />
     <ClCompile Include="CMenu.cpp" />
     <ClCompile Include="CMenuItem.cpp" />
-    <ClCompile Include="Concrete.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

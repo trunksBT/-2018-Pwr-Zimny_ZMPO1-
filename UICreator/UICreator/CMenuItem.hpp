@@ -18,10 +18,10 @@ public:
 
 protected:
 	void addObject(CMenuItem* inObj);
+
 	CMenuItem* findMenu(std::string menuName);
 
 	std::vector<CMenuItem*> children;
-	CMenuItem* parent = NULL;
 	std::string toString();
 	std::string toStringFlatTree();
 	std::string toStringTree(int indent = 0);

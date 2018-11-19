@@ -18,16 +18,10 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Abstract.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CMenu.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CMenuItem.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Concrete.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Utils.hpp">
@@ -41,16 +35,10 @@
     <ClCompile Include="UICreator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Abstract.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CMenuItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Concrete.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -12,7 +12,7 @@ namespace baseCommands
 {
 	static const std::string BACK = "back";
 	static const std::string CREATE_MENU = "createMenu";
-	static const std::string CREATE_MENU = "createCommand";
+	static const std::string CREATE_COMMAND = "createCommand";
 	static const std::string DELETE = "delete";
 	static const std::string SELECT = "select";
 	static const std::string PRINT = "print";
