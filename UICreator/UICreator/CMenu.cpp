@@ -5,13 +5,12 @@
 #include "CMenu.hpp"
 
 using namespace defaultVals;
-using namespace baseCommands;
+using namespace actions;
 
-CMenu::CMenu(std::string inMenuName, std::string inCommandName)
-	: CMenuItem(inMenuName, inCommandName)
+CMenu::CMenu(std::string inMenuName, std::string inuserInputName)
+	: CMenuItem(inMenuName, inuserInputName)
 {
 }
-
 
 CMenu::~CMenu()
 {
@@ -19,86 +18,49 @@ CMenu::~CMenu()
 
 void CMenu::run()
 {
-	std::string commandHeader;
-	std::string menuName;
-	std::string commandName;
+	std::string zeroArgOfUserCommand;
 	do
 	{
-		std::vector<std::string> command = receiveAndLexCommandFromUser();
-		// command[0] - firstArg commandHeader
-		// command[1] / command[2] depends from commandHeader, please check the if else
-		if (command.size() == 0)
+		std::vector<std::string> userInput = receiveAndLexUserInput();
+		// userInput[0] - firstArg userAction
+		// userInput[1] / userInput[2] depends from userAction, please check the if else
+		if (userInput.size() == 0)
 		{
 			return;
 		}
+		zeroArgOfUserCommand = userInput[0];
 
-		commandHeader = command[0];
+		if (isAction(zeroArgOfUserCommand))
+		{
+			interpretAction(userInput);
+		}
+		else if (isCommand(zeroArgOfUserCommand))
+		{
+			interpretCommand(userInput);
+		}
+		else if (zeroArgOfUserCommand == BACK)
+		{
+			system("cls");
 
-		if (commandHeader == CREATE_MENU)
-		{
-			if (validateInputCommand(command, 3))
-			{
-				CMenuItem* searchedElementInMenu = findMenu(command[2]);
-				if (NULL == searchedElementInMenu)
-				{
-					addObject(new CMenu(command[1], command[2]));
-					system("cls");
-				}
-				else
-				{
-					system("cls");
-					std::cout << "There is such menu callable via " << command[1] << '\n';
-				}
-			}
-			std::cout << toStringFlatTree() << "\n";
-		}
-		else if (commandHeader == SELECT)
-		{
-			if (validateInputCommand(command, 2))
-			{
-				CMenuItem* searchedElementInMenu = findMenu(command[2]);
-				if (NULL != searchedElementInMenu)
-				{
-					system("cls");
-					searchedElementInMenu->run();
-				}
-				else
-				{
-					system("cls");
-					std::cout << "There is no menu callable via " << command[2] << '\n';
-				}
-			}
-			std::cout << toStringFlatTree() << "\n";
-		}
-		else if (commandHeader == PRINT)
-		{
-			std::cout << toStringTree() << "\n";
-		}
-		else if (commandHeader == HELP)
-		{
-			std::cout << "Create MENU_NAME CMD_NAME - To create MENU_NAME callable via CMD_NAME" << "\n";
-			std::cout << "Select CMD_NAME - To select MENU via CMD_NAME" << "\n";
-			std::cout << "Print - To print all menu with submenus" << "\n";
-			std::cout << "Back - To back to previous menu/ close app" << "\n";
 		}
 		else
 		{
 			system("cls");
-			std::cout << commandHeader << " is unknown command, type help for more information" << "\n";
-			std::cout << toStringFlatTree() << "\n";
+			std::cout << zeroArgOfUserCommand << ": nie ma takiej pozycji" << END_LINE;
+			funs::actionHelp();
 		}
-	} while (commandHeader != BACK);
+	} while (zeroArgOfUserCommand != BACK);
 }
 
-std::vector<std::string> CMenu::performLexer(std::string inCommand)
+std::vector<std::string> CMenu::performLexer(std::string inuserInput)
 {
 	boost::char_separator<char> sep(SEPARATOR);
-	boost::tokenizer<boost::char_separator<char>> tokens (inCommand, sep);
+	boost::tokenizer<boost::char_separator<char>> tokens (inuserInput, sep);
 	std::vector<std::string> retVal(tokens.begin(), tokens.end());
 	return retVal;
 } // wziales z neta aby zabezpieczyc sie przed blednymi wejsciami uzytkownika
 
-std::vector<std::string> CMenu::receiveAndLexCommandFromUser()
+std::vector<std::string> CMenu::receiveAndLexUserInput()
 {
 	std::string inChain;
 	do
@@ -109,15 +71,87 @@ std::vector<std::string> CMenu::receiveAndLexCommandFromUser()
 	return performLexer(inChain);
 }
 
-bool CMenu::validateInputCommand(std::vector<std::string>& inCommand, int numberOfExpectedArgs)
+bool CMenu::isAction(const std::string& zeroArgOfUserInput)
 {
-	if (inCommand.size() < numberOfExpectedArgs)
+	return
+		zeroArgOfUserInput == CREATE_MENU or
+		zeroArgOfUserInput == SELECT or
+		zeroArgOfUserInput == PRINT or
+		zeroArgOfUserInput == HELP;
+}
+
+void CMenu::interpretAction(const std::vector<std::string>& userInput)
+{
+	std::string userAction = userInput[0];
+	if (userAction == CREATE_MENU)
 	{
-		std::cout << "To low number of args" << '\n';
+		if (validateUserInput(userInput, 3))
+		{
+			CMenuItem* searchedElementInMenu = findMenu(userInput[1]);
+			if (NULL == searchedElementInMenu)
+			{
+				addObject(new CMenu(userInput[idxForInput::MENU_NAME], userInput[2]));
+				system("cls");
+			}
+			else
+			{
+				system("cls");
+				std::cout << "Juz jest takie menu " << userInput[1] << END_LINE;
+			}
+		}
+		std::cout << toStringFlatTree() << END_LINE;
+	}
+	else if (userAction == SELECT)
+	{
+		if (validateUserInput(userInput, 2))
+		{
+			CMenuItem* searchedElementInMenu = findMenu(userInput[1]);
+			if (NULL != searchedElementInMenu)
+			{
+				system("cls");
+				searchedElementInMenu->run();
+			}
+			else
+			{
+				system("cls");
+				std::cout << "Nie ma takiego menu " << userInput[1] << END_LINE;
+			}
+		}
+		std::cout << toStringFlatTree() << END_LINE;
+	}
+	else if (userAction == PRINT)
+	{
+		system("cls");
+		std::cout << toStringTree() << END_LINE;
+	}
+	else if (userAction == HELP)
+	{
+		system("cls");
+		funs::actionHelp();
+	}
+}
+
+bool CMenu::validateUserInput(const std::vector<std::string>& userInput, int numberOfExpectedArgs)
+{
+	if (userInput.size() < numberOfExpectedArgs)
+	{
+		std::cout << "Zbyt mala liczba argumentow, wpisz 'help' aby zobaczyc liste dostepnych pozycji" << END_LINE << END_LINE;
 		return false;
 	}
-	else
+	return true;
+}
+
+bool CMenu::isCommand(const std::string& zeroArgOfUserInput)
+{
+	if (NULL == findCommand(zeroArgOfUserInput))
 	{
-		return true;
+		return false;
 	}
+	return true;
+}
+
+void CMenu::interpretCommand(const std::vector<std::string>& userInput)
+{
+	std::cout << "Znalazlem komende " << userInput[0] << END_LINE << END_LINE;
+	std::cout << toStringFlatTree() << END_LINE;
 }

@@ -19,7 +19,8 @@ public:
 protected:
 	void addObject(CMenuItem* inObj);
 
-	CMenuItem* findMenu(std::string menuName);
+	CMenuItem* findMenu(const std::string& menuName);
+	CMenuItem* findCommand(const std::string& commandName);
 
 	std::vector<CMenuItem*> children;
 	std::string toString();

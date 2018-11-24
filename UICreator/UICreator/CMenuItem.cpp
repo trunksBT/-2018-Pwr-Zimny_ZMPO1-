@@ -32,11 +32,23 @@ void CMenuItem::addObject(CMenuItem* inObj)
 	children.push_back(inObj);
 }
 
-CMenuItem* CMenuItem::findMenu(std::string menuName)
+CMenuItem* CMenuItem::findMenu(const std::string& menuName)
 {
 	for (const auto& child : children)
 	{
 		if (child->getMenuName() == menuName)
+		{
+			return child;
+		}
+	}
+	return NULL;
+}
+
+CMenuItem* CMenuItem::findCommand(const std::string& commandName)
+{
+	for (const auto& child : children)
+	{
+		if (child->getCommandName() == commandName)
 		{
 			return child;
 		}
