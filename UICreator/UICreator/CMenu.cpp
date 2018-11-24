@@ -85,13 +85,20 @@ void CMenu::interpretAction(const std::vector<std::string>& userInput)
 	std::string userAction = userInput[0];
 	if (userAction == CREATE_MENU)
 	{
-		if (validateUserInput(userInput, 3))
+		if (validateUserInput(userInput, reqNumOfArgsFor::CREATE_MENU))
 		{
-			CMenuItem* searchedElementInMenu = findMenu(userInput[1]);
-			if (NULL == searchedElementInMenu)
+			if (NULL == findMenu(userInput[1]))
 			{
-				addObject(new CMenu(userInput[idxForInput::MENU_NAME], userInput[2]));
-				system("cls");
+				if (NULL == findCommand(userInput[2]))
+				{
+					addObject(new CMenu(userInput[idxForInput::MENU_NAME], userInput[2]));
+					system("cls");
+				}
+				else
+				{
+					system("cls");
+					std::cout << "Juz jest taka komenda " << userInput[2] << END_LINE;
+				}
 			}
 			else
 			{
@@ -103,7 +110,7 @@ void CMenu::interpretAction(const std::vector<std::string>& userInput)
 	}
 	else if (userAction == SELECT)
 	{
-		if (validateUserInput(userInput, 2))
+		if (validateUserInput(userInput, reqNumOfArgsFor::SELECT))
 		{
 			CMenuItem* searchedElementInMenu = findMenu(userInput[1]);
 			if (NULL != searchedElementInMenu)

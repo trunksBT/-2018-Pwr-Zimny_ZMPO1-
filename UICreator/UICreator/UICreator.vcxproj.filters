@@ -27,6 +27,12 @@
     <ClInclude Include="Utils.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CMenuCommand.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CCommand.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -42,6 +48,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CMenuCommand.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

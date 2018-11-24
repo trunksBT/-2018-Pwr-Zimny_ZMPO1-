@@ -1,5 +1,11 @@
 #include <string>
 
+namespace reqNumOfArgsFor
+{
+	constexpr int CREATE_MENU = 3;
+	constexpr int SELECT = 2;
+}
+
 namespace defaultVals
 {
 	static const int ZERO = 0;
