@@ -3,6 +3,7 @@
 namespace reqNumOfArgsFor
 {
 	constexpr int CREATE_MENU = 3;
+	constexpr int CREATE_COMMAND = 3;
 	constexpr int SELECT = 2;
 }
 
@@ -29,6 +30,12 @@ namespace actions
 	static const std::string SELECT = "select";
 	static const std::string PRINT = "print";
 	static const std::string HELP = "help";
+}
+
+namespace commands
+{
+	static const std::string INTERNET = "internet";
+	static const std::string ALA = "ala";
 }
 
 namespace funs

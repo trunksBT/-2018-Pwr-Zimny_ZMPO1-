@@ -6,8 +6,8 @@ using namespace defaultVals;
 CMenuItem::CMenuItem(std::string inMenuName, std::string inCommandName)
 	: s_command(inCommandName)
 	, s_name(inMenuName)
-{
-}
+	, command(NULL)
+{}
 
 CMenuItem::~CMenuItem()
 {

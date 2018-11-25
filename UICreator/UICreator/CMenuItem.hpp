@@ -10,6 +10,7 @@ public:
 	CMenuItem(
 		std::string inMenuName = defaultVals::DEFAULT_STRING_VAL,
 		std::string inCommandName = defaultVals::DEFAULT_STRING_VAL);
+
 	virtual ~CMenuItem();
 
 	virtual void run() = 0;

@@ -7,7 +7,7 @@
 using namespace defaultVals;
 using namespace actions;
 
-CMenu::CMenu(std::string inMenuName, std::string inuserInputName)
+CMenu::CMenu(const std::string& inMenuName, const std::string& inuserInputName)
 	: CMenuItem(inMenuName, inuserInputName)
 {
 }
@@ -18,7 +18,7 @@ CMenu::~CMenu()
 
 void CMenu::run()
 {
-	std::string zeroArgOfUserCommand;
+	std::string zeroArgOfUserInput;
 	do
 	{
 		std::vector<std::string> userInput = receiveAndLexUserInput();
@@ -28,28 +28,28 @@ void CMenu::run()
 		{
 			return;
 		}
-		zeroArgOfUserCommand = userInput[0];
+		zeroArgOfUserInput = userInput[0];
 
-		if (isAction(zeroArgOfUserCommand))
+		if (isAction(zeroArgOfUserInput))
 		{
 			interpretAction(userInput);
 		}
-		else if (isCommand(zeroArgOfUserCommand))
+		else if (CMenuItem* itemWithMatchingCommand = findCommand(zeroArgOfUserInput))
 		{
-			interpretCommand(userInput);
+			//itemWithMatchingCommanda
+			//itemWithMatchingCommand
 		}
-		else if (zeroArgOfUserCommand == BACK)
+		else if (zeroArgOfUserInput == BACK)
 		{
 			system("cls");
-
 		}
 		else
 		{
 			system("cls");
-			std::cout << zeroArgOfUserCommand << ": nie ma takiej pozycji" << END_LINE;
+			std::cout << zeroArgOfUserInput << ": nie ma takiej pozycji" << END_LINE;
 			funs::actionHelp();
 		}
-	} while (zeroArgOfUserCommand != BACK);
+	} while (zeroArgOfUserInput != BACK);
 }
 
 std::vector<std::string> CMenu::performLexer(std::string inuserInput)
@@ -75,6 +75,7 @@ bool CMenu::isAction(const std::string& zeroArgOfUserInput)
 {
 	return
 		zeroArgOfUserInput == CREATE_MENU or
+		zeroArgOfUserInput == CREATE_COMMAND or
 		zeroArgOfUserInput == SELECT or
 		zeroArgOfUserInput == PRINT or
 		zeroArgOfUserInput == HELP;
@@ -108,7 +109,33 @@ void CMenu::interpretAction(const std::vector<std::string>& userInput)
 		}
 		std::cout << toStringFlatTree() << END_LINE;
 	}
-	else if (userAction == SELECT)
+	else if (userAction == CREATE_COMMAND)
+	{
+		//if (validateUserInput(userInput, reqNumOfArgsFor::CREATE_MENU))
+		//{
+		//	if (NULL == findMenu(userInput[1]))
+		//	{
+		//		if (NULL == findCommand(userInput[2]))
+		//		{
+		//			addObject(new CMenu(userInput[idxForInput::MENU_NAME], userInput[2]));
+		//			system("cls");
+		//		}
+		//		else
+		//		{
+		//			system("cls");
+		//			std::cout << "Juz jest taka komenda " << userInput[2] << END_LINE;
+		//		}
+		//	}
+		//	else
+		//	{
+		//		system("cls");
+		//		std::cout << "Juz jest takie menu " << userInput[1] << END_LINE;
+		//	}
+		//}
+		//std::cout << toStringFlatTree() << END_LINE;
+	}
+	else if (userAction == SELECT) // it will be called when objects 
+		// is of type CMenu and user will pass the command
 	{
 		if (validateUserInput(userInput, reqNumOfArgsFor::SELECT))
 		{
@@ -148,17 +175,9 @@ bool CMenu::validateUserInput(const std::vector<std::string>& userInput, int num
 	return true;
 }
 
-bool CMenu::isCommand(const std::string& zeroArgOfUserInput)
-{
-	if (NULL == findCommand(zeroArgOfUserInput))
-	{
-		return false;
-	}
-	return true;
-}
-
 void CMenu::interpretCommand(const std::vector<std::string>& userInput)
 {
+	system("cls");
 	std::cout << "Znalazlem komende " << userInput[0] << END_LINE << END_LINE;
 	std::cout << toStringFlatTree() << END_LINE;
 }
