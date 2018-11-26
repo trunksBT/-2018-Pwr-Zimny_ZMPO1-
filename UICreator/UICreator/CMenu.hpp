@@ -8,7 +8,6 @@
 class CMenu : public CMenuItem
 {
 public:
-	//CMenu(const std::string& inMenuName, const std::string& inCommandName);
 	CMenu(const std::string&  inMenuName, const std::string& inCommandName, CMenuItem* inParent);
 
 	virtual ~CMenu() = default;
@@ -17,10 +16,12 @@ public:
 	bool runPredefinedCommands(const std::vector<std::vector<std::string>>& inCommands) final override;
 
 private:
-	bool runImpl(const std::vector<std::string>& userInput);
+	CMenuItem* runImpl(const std::vector<std::string>& userInput);
 
 	bool isAction(const std::string& userInputArgumentOnPosition0);
-	void interpretAction(const std::vector<std::string>& userInput);
+	CMenuItem* interpretAction(const std::vector<std::string>& userInput);
+	CMenuItem* interpretCommand(CMenuItem* itemWithMatchedByNameCommand);
+	bool isAfterReceivedFirstCommand;
 
-	CMenu* cursor;
+	CMenuItem* cursor; // only to be used by RUNNERS
 };

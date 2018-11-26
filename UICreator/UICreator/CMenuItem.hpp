@@ -16,6 +16,7 @@ public:
 	virtual bool runPredefinedCommands(
 		const std::vector<std::vector<std::string>>& inCommands) = 0;
 	boost::optional<OBJECT_TYPE> getUIObjectType();
+	std::string toStringFlatTree();
 
 protected:
 	CMenuItem(
@@ -39,7 +40,6 @@ protected:
 	bool deleteChildren(const std::string& objectName);
 
 	std::string toString();
-	std::string toStringFlatTree();
 	std::string toStringTree(int indent = 0);
 	std::string insertIndent(int multiplier);
 
