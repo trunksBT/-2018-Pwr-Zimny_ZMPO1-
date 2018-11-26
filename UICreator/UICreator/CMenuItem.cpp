@@ -11,9 +11,10 @@ CMenuItem::CMenuItem(std::string inMenuName, std::string inCommandName)
 
 CMenuItem::~CMenuItem()
 {
-	for (const auto& it : children)
+	for (auto& it : children)
 	{
 		delete it;
+		it = NULL;
 	}
 }
 

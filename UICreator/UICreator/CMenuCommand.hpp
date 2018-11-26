@@ -7,8 +7,7 @@ class CMenuCommand : public CMenuItem
 {
 public:
 	CMenuCommand(std::string inName, std::string inCommandName);
-	virtual ~CMenuCommand() = default;
-	
+	virtual ~CMenuCommand();
 
 	void run() final override;
 

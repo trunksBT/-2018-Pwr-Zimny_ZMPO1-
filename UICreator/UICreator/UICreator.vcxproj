@@ -161,6 +161,7 @@
     <ClInclude Include="Utils.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CCommand.cpp" />
     <ClCompile Include="CCommandAla.cpp" />
     <ClCompile Include="CCommandInternet.cpp" />
     <ClCompile Include="CMenu.cpp" />
