@@ -42,7 +42,7 @@ void CMenu::run()
 		else
 		{
 			system("cls");
-			std::cout << zeroArgOfUserInput << ": nie ma takiej pozycji" << END_LINE;
+			std::cout << zeroArgOfUserInput << ": nie ma takiej pozycji" << END_LINE << END_LINE;
 			funs::actionHelp();
 		}
 	} while (zeroArgOfUserInput != BACK);
