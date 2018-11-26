@@ -1,12 +1,11 @@
 #include "pch.h"
 #include <iostream>
-#include <boost/tokenizer.hpp>
-
 #include "CMenu.hpp"
 #include "CMenuCommand.hpp"
 
-using namespace defaultVals;
 using namespace actions;
+using namespace defaultVals;
+using namespace funs;
 
 CMenu::CMenu(const std::string& inMenuName, const std::string& inuserInputName)
 	: CMenuItem(inMenuName, inuserInputName)
@@ -17,9 +16,7 @@ void CMenu::run()
 	std::string zeroArgOfUserInput;
 	do
 	{
-		std::vector<std::string> userInput = receiveAndLexUserInput();
-		// userInput[0] - firstArg userAction
-		// userInput[1] / userInput[2] depends from userAction, please check the if else
+		std::vector<std::string> userInput = funs::receiveAndLexUserInput();
 		if (userInput.size() == 0)
 		{
 			return;
@@ -48,38 +45,9 @@ void CMenu::run()
 	} while (zeroArgOfUserInput != BACK);
 }
 
-std::vector<std::string> CMenu::performLexer(std::string inuserInput)
-{
-	boost::char_separator<char> sep(SPACE_AS_SEPARATOR);
-	boost::tokenizer<boost::char_separator<char>> tokens (inuserInput, sep);
-	std::vector<std::string> retVal(tokens.begin(), tokens.end());
-	return retVal;
-}
-
-std::vector<std::string> CMenu::receiveAndLexUserInput()
-{
-	std::string inChain;
-	do
-	{
-		std::cout << CURSOR_SIGN;
-		getline(std::cin, inChain);
-	} while (inChain.size() == ZERO);
-	return performLexer(inChain);
-}
-
-bool CMenu::isAction(const std::string& zeroArgOfUserInput)
-{
-	return
-		zeroArgOfUserInput == CREATE_MENU or
-		zeroArgOfUserInput == CREATE_COMMAND or
-		zeroArgOfUserInput == DELETE or
-		zeroArgOfUserInput == PRINT or
-		zeroArgOfUserInput == HELP;
-}
-
 void CMenu::interpretAction(const std::vector<std::string>& userInput)
 {
-	std::string userAction = userInput[idx::COMMAND_OR_ACTION_NAME];
+	const std::string& userAction = userInput[idx::COMMAND_OR_ACTION_NAME];
 	if (userAction == CREATE_MENU)
 	{
 		if (validateUserInput(userInput, reqNumOfArgsFor::CREATE_MENU))
@@ -155,14 +123,12 @@ void CMenu::interpretAction(const std::vector<std::string>& userInput)
 	}
 }
 
-bool CMenu::validateUserInput(const std::vector<std::string>& userInput, int numberOfExpectedArgs)
+bool CMenu::isAction(const std::string& zeroArgOfUserInput)
 {
-	if (userInput.size() < numberOfExpectedArgs)
-	{
-		system("cls");
-		std::cout << "Zbyt mala liczba argumentow "
-			<< "wpisz 'help' aby zobaczyc liste dostepnych pozycji" << END_LINE << END_LINE;
-		return false;
-	}
-	return true;
+	return
+		zeroArgOfUserInput == CREATE_MENU or
+		zeroArgOfUserInput == CREATE_COMMAND or
+		zeroArgOfUserInput == DELETE or
+		zeroArgOfUserInput == PRINT or
+		zeroArgOfUserInput == HELP;
 }
