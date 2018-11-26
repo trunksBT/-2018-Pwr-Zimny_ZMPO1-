@@ -94,8 +94,8 @@ CMenuItem* CMenu::runImpl(const std::vector<std::string>& userInput)
 		std::cout << zeroArgOfUserInput << ": nie ma takiej pozycji" << END_LINE << END_LINE;
 		std::cout << funs::actionHelp();
 		std::cout << toStringFlatTree() << END_LINE;
+		return this;
 	}
-	return this;
 }
 
 CMenuItem* CMenu::interpretCommand(CMenuItem* itemWithMatchedByNameCommand)
