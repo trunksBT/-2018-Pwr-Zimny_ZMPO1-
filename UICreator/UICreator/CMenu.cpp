@@ -56,8 +56,9 @@ bool CMenu::runImpl(const std::vector<std::string>& userInput)
 	if (zeroArgOfUserInput == BACK)
 	{
 		system("cls");
-		if (NULL == parent)
+		if (NULL == cursor->parent)
 		{
+			cursor = dynamic_cast<CMenu*>(cursor->parent);
 			return false;
 		}
 		else
@@ -72,23 +73,21 @@ bool CMenu::runImpl(const std::vector<std::string>& userInput)
 	}
 	else if (CMenuItem* command = cursor->findCommand(zeroArgOfUserInput))
 	{
+		system("cls");
 		boost::optional<OBJECT_TYPE> UIObjectType = command->getUIObjectType();
 		if (UIObjectType)
 		{
 			switch (*UIObjectType)
 			{
 				case OBJECT_TYPE::COMMAND:
-					//std::cout << "ITS COMMAND " << END_LINE;
+					command->run();
 					break;
 				case OBJECT_TYPE::MENU:
-					//std::cout << "ITS MENU " << END_LINE;
 					CMenu* nextCursor = dynamic_cast<CMenu*>(command);
 					cursor = nextCursor;
 					break;
 			}
 		}
-		//return command->runPredefinedCommands({ userInput });
-		//command->run();
 		std::cout << cursor->toStringFlatTree() << END_LINE;
 	}
 	else
@@ -96,7 +95,7 @@ bool CMenu::runImpl(const std::vector<std::string>& userInput)
 		system("cls");
 		std::cout << zeroArgOfUserInput << ": nie ma takiej pozycji" << END_LINE << END_LINE;
 		std::cout << funs::actionHelp();
-		std::cout << toStringFlatTree() << END_LINE;
+		std::cout << cursor->toStringFlatTree() << END_LINE;
 	}
 	return true;
 }
