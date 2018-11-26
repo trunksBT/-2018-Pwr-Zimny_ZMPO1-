@@ -11,38 +11,63 @@ CMenu::CMenu(const std::string& inMenuName, const std::string& inuserInputName)
 	: CMenuItem(inMenuName, inuserInputName)
 {}
 
+bool CMenu::runImpl(const std::vector<std::string>& userInput)
+{
+	if (userInput.size() == 0)
+	{
+		system("cls");
+		std::cout << funs::actionHelp();
+		std::cout << this->toStringFlatTree() << END_LINE;
+		return true;
+	}
+	std::string zeroArgOfUserInput = userInput[idx::COMMAND_OR_ACTION_NAME];
+
+	if (zeroArgOfUserInput == BACK)
+	{
+		system("cls");
+		return false;
+	}
+	else if (isAction(zeroArgOfUserInput))
+	{
+		interpretAction(userInput);
+	}
+	else if (CMenuItem* command = findCommand(zeroArgOfUserInput))
+	{
+		command->run();
+		std::cout << toStringFlatTree() << END_LINE;
+	}
+	else
+	{
+		system("cls");
+		std::cout << zeroArgOfUserInput << ": nie ma takiej pozycji" << END_LINE << END_LINE;
+		std::cout << funs::actionHelp();
+		std::cout << toStringFlatTree() << END_LINE;
+	}
+	return true;
+}
+
 void CMenu::run()
 {
-	std::string zeroArgOfUserInput;
-	do
+	while (true)
 	{
 		std::vector<std::string> userInput = funs::receiveAndLexUserInput();
-		if (userInput.size() == 0)
+		if (not runImpl(userInput))
 		{
 			return;
 		}
-		zeroArgOfUserInput = userInput[idx::COMMAND_OR_ACTION_NAME];
+	}
+}
 
-		if (isAction(zeroArgOfUserInput))
+void CMenu::runPredefinedCommands(const std::vector<std::vector<std::string>>& inCommands)
+{
+	for (const auto& it : inCommands)
+	{
+		if (not runImpl(it))
 		{
-			interpretAction(userInput);
+			return;
 		}
-		else if (CMenuItem* command = findCommand(zeroArgOfUserInput))
-		{
-			command->run();
-			std::cout << toStringFlatTree() << END_LINE;
-		}
-		else if (zeroArgOfUserInput == BACK)
-		{
-			system("cls");
-		}
-		else
-		{
-			system("cls");
-			std::cout << zeroArgOfUserInput << ": nie ma takiej pozycji" << END_LINE << END_LINE;
-			funs::actionHelp();
-		}
-	} while (zeroArgOfUserInput != BACK);
+	}
+	run();
 }
 
 void CMenu::interpretAction(const std::vector<std::string>& userInput)
@@ -119,7 +144,8 @@ void CMenu::interpretAction(const std::vector<std::string>& userInput)
 	else if (userAction == HELP)
 	{
 		system("cls");
-		funs::actionHelp();
+		std::cout << funs::actionHelp();
+		std::cout << toStringFlatTree() << END_LINE;
 	}
 }
 

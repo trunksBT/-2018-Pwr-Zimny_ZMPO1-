@@ -36,7 +36,7 @@ namespace defaultVals
 
 namespace funs
 {
-	void actionHelp();
+	std::string actionHelp();
 	std::vector<std::string> performLexer(std::string inuserInput);
 	std::vector<std::string> receiveAndLexUserInput();
 	bool validateUserInput(const std::vector<std::string>& userInput, int numberOfExpectedArgs);
