@@ -3,18 +3,14 @@
 #include <boost/tokenizer.hpp>
 
 #include "CMenu.hpp"
+#include "CMenuCommand.hpp"
 
 using namespace defaultVals;
 using namespace actions;
 
 CMenu::CMenu(const std::string& inMenuName, const std::string& inuserInputName)
 	: CMenuItem(inMenuName, inuserInputName)
-{
-}
-
-CMenu::~CMenu()
-{
-}
+{}
 
 void CMenu::run()
 {
@@ -28,16 +24,16 @@ void CMenu::run()
 		{
 			return;
 		}
-		zeroArgOfUserInput = userInput[0];
+		zeroArgOfUserInput = userInput[idx::COMMAND_OR_ACTION_NAME];
 
 		if (isAction(zeroArgOfUserInput))
 		{
 			interpretAction(userInput);
 		}
-		else if (CMenuItem* itemWithMatchingCommand = findCommand(zeroArgOfUserInput))
+		else if (CMenuItem* command = findCommand(zeroArgOfUserInput))
 		{
-			//itemWithMatchingCommanda
-			//itemWithMatchingCommand
+			command->run();
+			std::cout << toStringFlatTree() << END_LINE;
 		}
 		else if (zeroArgOfUserInput == BACK)
 		{
@@ -58,7 +54,7 @@ std::vector<std::string> CMenu::performLexer(std::string inuserInput)
 	boost::tokenizer<boost::char_separator<char>> tokens (inuserInput, sep);
 	std::vector<std::string> retVal(tokens.begin(), tokens.end());
 	return retVal;
-} // wziales z neta aby zabezpieczyc sie przed blednymi wejsciami uzytkownika
+}
 
 std::vector<std::string> CMenu::receiveAndLexUserInput()
 {
@@ -76,82 +72,76 @@ bool CMenu::isAction(const std::string& zeroArgOfUserInput)
 	return
 		zeroArgOfUserInput == CREATE_MENU or
 		zeroArgOfUserInput == CREATE_COMMAND or
-		zeroArgOfUserInput == SELECT or
+		zeroArgOfUserInput == DELETE or
 		zeroArgOfUserInput == PRINT or
 		zeroArgOfUserInput == HELP;
 }
 
 void CMenu::interpretAction(const std::vector<std::string>& userInput)
 {
-	std::string userAction = userInput[0];
+	std::string userAction = userInput[idx::COMMAND_OR_ACTION_NAME];
 	if (userAction == CREATE_MENU)
 	{
 		if (validateUserInput(userInput, reqNumOfArgsFor::CREATE_MENU))
 		{
-			if (NULL == findMenu(userInput[1]))
+			if (NULL == findName(userInput[idx::OBJECT_NAME]))
 			{
-				if (NULL == findCommand(userInput[2]))
+				if (NULL == findCommand(userInput[idx::COMMAND_NAME]))
 				{
-					addObject(new CMenu(userInput[idxForInput::MENU_NAME], userInput[2]));
+					children.push_back(new CMenu(userInput[idx::OBJECT_NAME], userInput[idx::COMMAND_NAME]));
 					system("cls");
 				}
 				else
 				{
 					system("cls");
-					std::cout << "Juz jest taka komenda " << userInput[2] << END_LINE;
+					std::cout << "Juz jest taka komenda " << userInput[idx::COMMAND_NAME] << END_LINE << END_LINE;
 				}
 			}
 			else
 			{
 				system("cls");
-				std::cout << "Juz jest takie menu " << userInput[1] << END_LINE;
+				std::cout << "Juz jest taka nazwa " << userInput[idx::OBJECT_NAME] << END_LINE << END_LINE;
 			}
 		}
 		std::cout << toStringFlatTree() << END_LINE;
 	}
 	else if (userAction == CREATE_COMMAND)
 	{
-		//if (validateUserInput(userInput, reqNumOfArgsFor::CREATE_MENU))
-		//{
-		//	if (NULL == findMenu(userInput[1]))
-		//	{
-		//		if (NULL == findCommand(userInput[2]))
-		//		{
-		//			addObject(new CMenu(userInput[idxForInput::MENU_NAME], userInput[2]));
-		//			system("cls");
-		//		}
-		//		else
-		//		{
-		//			system("cls");
-		//			std::cout << "Juz jest taka komenda " << userInput[2] << END_LINE;
-		//		}
-		//	}
-		//	else
-		//	{
-		//		system("cls");
-		//		std::cout << "Juz jest takie menu " << userInput[1] << END_LINE;
-		//	}
-		//}
-		//std::cout << toStringFlatTree() << END_LINE;
-	}
-	else if (userAction == SELECT) // it will be called when objects 
-		// is of type CMenu and user will pass the command
-	{
-		if (validateUserInput(userInput, reqNumOfArgsFor::SELECT))
+		if (validateUserInput(userInput, reqNumOfArgsFor::CREATE_MENU))
 		{
-			CMenuItem* searchedElementInMenu = findMenu(userInput[1]);
-			if (NULL != searchedElementInMenu)
+			if (NULL == findName(userInput[idx::OBJECT_NAME]))
 			{
-				system("cls");
-				searchedElementInMenu->run();
+				if (NULL == findCommand(userInput[idx::COMMAND_NAME]))
+				{
+					children.push_back(new CMenuCommand(userInput[idx::OBJECT_NAME], userInput[idx::COMMAND_NAME]));
+					system("cls");
+				}
+				else
+				{
+					system("cls");
+					std::cout << "Juz jest taka komenda " << userInput[idx::COMMAND_NAME] << END_LINE;
+				}
 			}
 			else
 			{
 				system("cls");
-				std::cout << "Nie ma takiego menu " << userInput[1] << END_LINE;
+				std::cout << "Juz jest taka nazwa " << userInput[idx::OBJECT_NAME] << END_LINE;
 			}
 		}
 		std::cout << toStringFlatTree() << END_LINE;
+	}
+	else if (userAction == DELETE)
+	{
+		if (deleteChildren(userInput[idx::OBJECT_NAME]))
+		{
+			system("cls");
+			std::cout << toStringFlatTree() << END_LINE;
+		}
+		else
+		{
+			std::cout << "Nieznaleziono obiekt do skasowania o nazwie "
+				<< userInput[idx::OBJECT_NAME] << END_LINE;
+		}
 	}
 	else if (userAction == PRINT)
 	{
@@ -169,15 +159,10 @@ bool CMenu::validateUserInput(const std::vector<std::string>& userInput, int num
 {
 	if (userInput.size() < numberOfExpectedArgs)
 	{
-		std::cout << "Zbyt mala liczba argumentow, wpisz 'help' aby zobaczyc liste dostepnych pozycji" << END_LINE << END_LINE;
+		system("cls");
+		std::cout << "Zbyt mala liczba argumentow "
+			<< "wpisz 'help' aby zobaczyc liste dostepnych pozycji" << END_LINE << END_LINE;
 		return false;
 	}
 	return true;
-}
-
-void CMenu::interpretCommand(const std::vector<std::string>& userInput)
-{
-	system("cls");
-	std::cout << "Znalazlem komende " << userInput[0] << END_LINE << END_LINE;
-	std::cout << toStringFlatTree() << END_LINE;
 }

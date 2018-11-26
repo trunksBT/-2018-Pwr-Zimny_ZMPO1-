@@ -7,7 +7,7 @@ class CMenu : public CMenuItem
 {
 public:
 	CMenu(const std::string& inMenuName, const std::string& inCommandName);
-	virtual ~CMenu();
+	virtual ~CMenu() = default;
 
 	void run();
 private:
@@ -17,6 +17,4 @@ private:
 
 	bool isAction(const std::string& userInputArgumentOnPosition0);
 	void interpretAction(const std::vector<std::string>& userInput);
-
-	void interpretCommand(const std::vector<std::string>& userInput);
 };

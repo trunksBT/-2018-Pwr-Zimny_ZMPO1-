@@ -7,32 +7,28 @@
 class CMenuItem
 {
 public:
-	CMenuItem(
-		std::string inMenuName = defaultVals::DEFAULT_STRING_VAL,
-		std::string inCommandName = defaultVals::DEFAULT_STRING_VAL);
-
+	CMenuItem(std::string inMenuName, std::string inCommandName);
 	virtual ~CMenuItem();
 
 	virtual void run() = 0;
-	std::string getMenuName();
+
+protected:
+	std::string getName();
 	std::string getCommandName();
 
-protected:
-	void addObject(CMenuItem* inObj);
-
-protected:
-	CMenuItem* findMenu(const std::string& menuName);
+	CMenuItem* findName(const std::string& objectName);
 	CMenuItem* findCommand(const std::string& commandName);
 
-protected:
+	bool deleteChildren(const std::string& objectName);
+
 	std::string toString();
 	std::string toStringFlatTree();
 	std::string toStringTree(int indent = 0);
 	std::string insertIndent(int multiplier);
 
+	std::vector<CMenuItem*> children;
+
 private:
 	std::string s_name;
 	std::string s_command;
-	std::vector<CMenuItem*> children;
-	CMenuItem* command;
 };

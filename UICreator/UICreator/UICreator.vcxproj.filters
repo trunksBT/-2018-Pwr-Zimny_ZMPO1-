@@ -33,6 +33,12 @@
     <ClInclude Include="CCommand.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CCommandInternet.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CCommandAla.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -51,6 +57,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CMenuCommand.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CCommandInternet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CCommandAla.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

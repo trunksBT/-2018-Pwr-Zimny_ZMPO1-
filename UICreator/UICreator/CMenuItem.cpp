@@ -1,4 +1,5 @@
 #include "pch.h"
+#include <algorithm>
 #include "CMenuItem.hpp"
 
 using namespace defaultVals;
@@ -6,7 +7,6 @@ using namespace defaultVals;
 CMenuItem::CMenuItem(std::string inMenuName, std::string inCommandName)
 	: s_command(inCommandName)
 	, s_name(inMenuName)
-	, command(NULL)
 {}
 
 CMenuItem::~CMenuItem()
@@ -17,7 +17,7 @@ CMenuItem::~CMenuItem()
 	}
 }
 
-std::string CMenuItem::getMenuName()
+std::string CMenuItem::getName()
 {
 	return s_name;
 }
@@ -27,16 +27,11 @@ std::string CMenuItem::getCommandName()
 	return s_command;
 }
 
-void CMenuItem::addObject(CMenuItem* inObj)
-{
-	children.push_back(inObj);
-}
-
-CMenuItem* CMenuItem::findMenu(const std::string& menuName)
+CMenuItem* CMenuItem::findName(const std::string& objectName)
 {
 	for (const auto& child : children)
 	{
-		if (child->getMenuName() == menuName)
+		if (child->getName() == objectName)
 		{
 			return child;
 		}
@@ -56,9 +51,43 @@ CMenuItem* CMenuItem::findCommand(const std::string& commandName)
 	return NULL;
 }
 
+bool CMenuItem::deleteChildren(const std::string& objectName)
+{
+	int idxToDel = -1;
+	for (int i = 0; i < children.size() && idxToDel == -1; i++)
+	{
+		if (objectName == children.at(i)->getName())
+		{
+			idxToDel = i;
+		}
+	}
+
+	if (-1 < idxToDel)
+	{
+		const int idxOfLastElem = children.size() - 1;
+		if (1 == children.size() // jest jedynym elementem albo
+			or idxToDel == idxOfLastElem) // jestem ostatnim elementem
+		{
+			delete children[idxToDel];
+			children.pop_back();
+		}
+		else // jest gdzieœ poœrodku
+		{
+			CMenuItem* temp = children.at(idxOfLastElem);
+			children[idxOfLastElem] = children[idxToDel];
+			children[idxToDel] = temp;
+
+			delete children[idxOfLastElem];
+			children.pop_back();
+		}
+		return true;
+	}
+	return false;
+}
+
 std::string CMenuItem::toString()
 {
-	return getMenuName() + "(" + getCommandName() + ")";
+	return getName() + "(" + getCommandName() + ")";
 }
 
 std::string CMenuItem::toStringFlatTree()
@@ -79,6 +108,7 @@ std::string CMenuItem::toStringTree(int indent)
 	std::string retVal(toString());
 	retVal += "\n";
 	++indent;
+
 	for (const auto& it : children)
 	{
 		retVal += insertIndent(indent);
@@ -92,7 +122,7 @@ std::string CMenuItem::insertIndent(int multiplier)
 	std::string retVal;
 	for (int i = 0; i < multiplier; i++)
 	{
-		retVal += "----";
+		retVal += "---";
 	}
 	return retVal;
 }

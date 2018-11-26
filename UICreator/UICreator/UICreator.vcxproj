@@ -152,6 +152,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CCommand.hpp" />
+    <ClInclude Include="CCommandAla.hpp" />
+    <ClInclude Include="CCommandInternet.hpp" />
     <ClInclude Include="CMenu.hpp" />
     <ClInclude Include="CMenuCommand.hpp" />
     <ClInclude Include="CMenuItem.hpp" />
@@ -159,6 +161,8 @@
     <ClInclude Include="Utils.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CCommandAla.cpp" />
+    <ClCompile Include="CCommandInternet.cpp" />
     <ClCompile Include="CMenu.cpp" />
     <ClCompile Include="CMenuCommand.cpp" />
     <ClCompile Include="CMenuItem.cpp" />
