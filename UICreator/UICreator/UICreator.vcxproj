@@ -154,6 +154,7 @@
     <ClInclude Include="CCommand.hpp" />
     <ClInclude Include="CCommandAla.hpp" />
     <ClInclude Include="CCommandInternet.hpp" />
+    <ClInclude Include="CCommandZimny.hpp" />
     <ClInclude Include="CMenu.hpp" />
     <ClInclude Include="CMenuCommand.hpp" />
     <ClInclude Include="CMenuItem.hpp" />
@@ -164,6 +165,7 @@
     <ClCompile Include="CCommand.cpp" />
     <ClCompile Include="CCommandAla.cpp" />
     <ClCompile Include="CCommandInternet.cpp" />
+    <ClCompile Include="CCommandZimny.cpp" />
     <ClCompile Include="CMenu.cpp" />
     <ClCompile Include="CMenuCommand.cpp" />
     <ClCompile Include="CMenuItem.cpp" />

@@ -3,6 +3,7 @@
 #include "CMenuCommand.hpp"
 #include "CCommandAla.hpp"
 #include "CCommandInternet.hpp"
+#include "CCommandZimny.hpp"
 #include "Utils.hpp"
 
 using namespace defaultVals;
@@ -18,6 +19,10 @@ CMenuCommand::CMenuCommand(std::string inName, std::string inCommandName)
 	else if (inCommandName == commands::ALA)
 	{
 		command = new CCommandAla();
+	}
+	else if (inCommandName == commands::ZIMNY)
+	{
+		command = new CCommandZimny();
 	}
 }
 

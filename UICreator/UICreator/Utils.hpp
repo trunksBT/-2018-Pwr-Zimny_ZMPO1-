@@ -29,6 +29,7 @@ namespace commands
 {
 	static const std::string INTERNET = "internet";
 	static const std::string ALA = "ala";
+	static const std::string ZIMNY = "zimny";
 }
 
 namespace defaultVals
