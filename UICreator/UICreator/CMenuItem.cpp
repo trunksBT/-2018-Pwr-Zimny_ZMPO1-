@@ -93,12 +93,12 @@ std::string CMenuItem::toString()
 std::string CMenuItem::toStringFlatTree()
 {
 	std::string retVal(toString());
-	retVal += "\n";
+	retVal += END_LINE;
 
 	for (const auto& it : children)
 	{
 		retVal += insertIndent(1);
-		retVal += it->toString() + '\n';
+		retVal += it->toString() + END_LINE;
 	}
 	return retVal;
 }
@@ -106,7 +106,7 @@ std::string CMenuItem::toStringFlatTree()
 std::string CMenuItem::toStringTree(int indent)
 {
 	std::string retVal(toString());
-	retVal += "\n";
+	retVal += END_LINE;
 	++indent;
 
 	for (const auto& it : children)
@@ -122,7 +122,7 @@ std::string CMenuItem::insertIndent(int multiplier)
 	std::string retVal;
 	for (int i = 0; i < multiplier; i++)
 	{
-		retVal += "---";
+		retVal += INDENT_OF_SIZE_ONE;
 	}
 	return retVal;
 }

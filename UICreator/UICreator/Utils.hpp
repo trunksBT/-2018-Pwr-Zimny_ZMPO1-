@@ -10,8 +10,9 @@ namespace defaultVals
 {
 	static const int ZERO = 0;
 	static const std::string CURSOR_SIGN = ":- ";
-	static const char* SEPARATOR = " ";  // wskaznik na tablice znakow
+	static const char* SPACE_AS_SEPARATOR = " ";  // wskaznik na tablice znakow
 	static const char* END_LINE = "\n";
+	static const char* INDENT_OF_SIZE_ONE = "---";
 }
 
 namespace idx

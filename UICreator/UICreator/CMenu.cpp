@@ -50,7 +50,7 @@ void CMenu::run()
 
 std::vector<std::string> CMenu::performLexer(std::string inuserInput)
 {
-	boost::char_separator<char> sep(SEPARATOR);
+	boost::char_separator<char> sep(SPACE_AS_SEPARATOR);
 	boost::tokenizer<boost::char_separator<char>> tokens (inuserInput, sep);
 	std::vector<std::string> retVal(tokens.begin(), tokens.end());
 	return retVal;
@@ -139,7 +139,7 @@ void CMenu::interpretAction(const std::vector<std::string>& userInput)
 		}
 		else
 		{
-			std::cout << "Nieznaleziono obiekt do skasowania o nazwie "
+			std::cout << "Nieznaleziono obiektu do skasowania o nazwie "
 				<< userInput[idx::OBJECT_NAME] << END_LINE;
 		}
 	}
