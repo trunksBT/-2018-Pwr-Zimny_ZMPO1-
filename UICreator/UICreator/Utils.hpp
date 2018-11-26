@@ -3,6 +3,12 @@
 #include <string>
 #include <vector>
 
+enum class OBJECT_TYPE : int
+{
+	MENU = 0,
+	COMMAND = 1
+};
+
 namespace reqNumOfArgsFor
 {
 	constexpr int CREATE_MENU = 3;

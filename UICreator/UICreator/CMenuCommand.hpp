@@ -9,7 +9,8 @@ public:
 	CMenuCommand(std::string inName, std::string inCommandName);
 	virtual ~CMenuCommand();
 
-	void run() final override;
+	bool run() final override;
+	bool runPredefinedCommands(const std::vector<std::vector<std::string>>& inCommands) final override;
 
 private:
 	CCommand* command;

@@ -8,7 +8,7 @@
 using namespace defaultVals;
 
 CMenuCommand::CMenuCommand(std::string inName, std::string inCommandName)
-	: CMenuItem(inName, inCommandName)
+	: CMenuItem(inName, inCommandName, OBJECT_TYPE::COMMAND)
 	, command(NULL)
 {
 	if (inCommandName == commands::INTERNET)
@@ -27,7 +27,7 @@ CMenuCommand::~CMenuCommand()
 	command = NULL;
 }
 
-void CMenuCommand::run()
+bool CMenuCommand::run()
 {
 	if (NULL == command)
 	{
@@ -37,4 +37,10 @@ void CMenuCommand::run()
 	{
 		command->runCommand();
 	}
+	return true;
+}
+
+bool CMenuCommand::runPredefinedCommands(const std::vector<std::vector<std::string>>& inCommands)
+{
+	return true;
 }

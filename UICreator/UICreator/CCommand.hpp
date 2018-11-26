@@ -3,5 +3,5 @@
 class CCommand
 {
 public:
-	virtual void runCommand() = 0;
+	virtual bool runCommand() = 0;
 };

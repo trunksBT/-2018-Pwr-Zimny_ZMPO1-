@@ -9,6 +9,23 @@ CMenuItem::CMenuItem(std::string inMenuName, std::string inCommandName)
 	, s_name(inMenuName)
 {}
 
+CMenuItem::CMenuItem(std::string inMenuName, std::string inCommandName, OBJECT_TYPE inType)
+	: s_command(inCommandName)
+	, s_name(inMenuName)
+	, objectType(inType)
+{}
+
+CMenuItem::CMenuItem(
+	std::string inMenuName,
+	std::string inCommandName,
+	OBJECT_TYPE inType,
+	CMenuItem* inParent)
+: s_command(inCommandName)
+, s_name(inMenuName)
+, objectType(inType)
+, parent(inParent)
+{}
+
 CMenuItem::~CMenuItem()
 {
 	for (auto& it : children)
@@ -126,4 +143,9 @@ std::string CMenuItem::insertIndent(int multiplier)
 		retVal += INDENT_OF_SIZE_ONE;
 	}
 	return retVal;
+}
+
+boost::optional<OBJECT_TYPE> CMenuItem::getUIObjectType()
+{
+	return objectType;
 }

@@ -5,6 +5,6 @@
 class CCommandInternet : public CCommand
 {
 public:
-	void runCommand() final override;
+	bool runCommand() final override;
 };
 

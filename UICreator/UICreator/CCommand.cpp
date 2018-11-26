@@ -5,7 +5,8 @@
 
 using namespace defaultVals;
 
-void CCommand::runCommand()
+bool CCommand::runCommand()
 {
 	std::cout << "Komenda domyslna" << END_LINE << END_LINE;
+	return true;
 }

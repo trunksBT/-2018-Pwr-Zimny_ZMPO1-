@@ -5,8 +5,9 @@
 
 using namespace defaultVals;
 
-void CCommandAla::runCommand()
+bool CCommandAla::runCommand()
 {
 	system("cls");
 	std::cout << "Ala ma kota" << END_LINE << END_LINE;
+	return true;
 }
